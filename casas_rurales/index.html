@@ -321,28 +321,28 @@
 
     <section class="cards" id="cards"></section>
 
-    <section class="table-section">
+    <section class="table-section" id="comparison">
       <h2>Tabla comparativa</h2>
-
+    
       <div class="table-wrapper">
-        <table>
+        <table id="comparison-table">
           <thead>
             <tr>
-              <th>Alojamiento</th>
-              <th>Ubicación</th>
-              <th>Precio total</th>
-              <th>Precio / persona</th>
-              <th>Valoración</th>
-              <th>Camas</th>
-              <th>Piscina</th>
-              <th>A/C</th>
+              <th data-sort="name">Alojamiento ↕</th>
+              <th data-sort="location">Ubicación ↕</th>
+              <th data-sort="totalPrice">Precio total ↕</th>
+              <th data-sort="perPerson">Precio / persona ↕</th>
+              <th data-sort="rating">Valoración ↕</th>
+              <th data-sort="beds">Camas ↕</th>
+              <th data-sort="pool">Piscina ↕</th>
+              <th data-sort="ac">A/C ↕</th>
             </tr>
           </thead>
-
+    
           <tbody id="table-body"></tbody>
         </table>
       </div>
-    </section>
+</section>
   </div>
 
   <script>
@@ -540,99 +540,176 @@
 
     const cards = document.getElementById('cards');
     const tableBody = document.getElementById('table-body');
-
+    
     function yesNo(value) {
       if (value === true) return '<span class="yes">Sí</span>';
       if (value === false) return '<span class="nope">No</span>';
       return '<span class="small">Pendiente</span>';
     }
-
-    houses.forEach(house => {
-      cards.innerHTML += `
-        <article class="card">
-          <div class="image" style="background-image:url('${house.image}')">
-            <div class="rating">⭐ ${house.rating}</div>
-          </div>
-
-          <div class="content">
-            <h2>${house.name}</h2>
-            <div class="location">${house.municipality}, ${house.province}</div>
-
-            <div class="price">
-              <div>
-                <span>Precio total</span>
-                <strong>${house.totalPrice}</strong>
+    
+    function renderCards() {
+      cards.innerHTML = '';
+    
+      houses.forEach(house => {
+        cards.innerHTML += `
+          <article class="card">
+            <div class="image" style="background-image:url('${house.image}')">
+              <div class="rating">⭐ ${house.rating}</div>
+            </div>
+    
+            <div class="content">
+              <h2>${house.name}</h2>
+              <div class="location">${house.municipality}, ${house.province}</div>
+    
+              <div class="price">
+                <div>
+                  <span>Precio total</span>
+                  <strong>${house.totalPrice}</strong>
+                </div>
+    
+                <div>
+                  <span>Por persona</span>
+                  <strong>${house.perPerson}</strong>
+                </div>
               </div>
-
-              <div>
-                <span>Por persona</span>
-                <strong>${house.perPerson}</strong>
+    
+              <div class="badges">
+                <div class="badge ${house.pool ? '' : 'no'}">
+                  ${house.pool ? '🏊 Piscina' : '❌ Sin piscina'}
+                </div>
+    
+                <div class="badge ${house.ac ? '' : 'no'}">
+                  ${house.ac ? '❄️ A/C' : '🌡️ Sin A/C'}
+                </div>
+              </div>
+    
+              <div class="beds">
+                <h3>Distribución de camas</h3>
+    
+                <ul>
+                  <li>🛏️ Individuales: ${house.beds.singles}</li>
+                  <li>🛌 Matrimonio: ${house.beds.double}</li>
+                  <li>🪜 Literas: ${house.beds.bunk}</li>
+                  <li>🛋️ Sofá cama: ${house.beds.sofa}</li>
+                </ul>
+              </div>
+    
+              <div class="actions">
+                <a class="button primary" href="${house.source}" target="_blank">
+                  Ver alojamiento
+                </a>
+    
+                <a class="button secondary" href="#comparison">
+                  Comparar
+                </a>
               </div>
             </div>
-
-            <div class="badges">
-              <div class="badge ${house.pool ? '' : 'no'}">
-                ${house.pool ? '🏊 Piscina' : '❌ Sin piscina'}
+          </article>
+        `;
+      });
+    }
+    
+    function renderTable() {
+      tableBody.innerHTML = '';
+    
+      houses.forEach(house => {
+        tableBody.innerHTML += `
+          <tr>
+            <td>
+              <strong>${house.name}</strong>
+            </td>
+    
+            <td>
+              ${house.municipality}<br>
+              <span class="small">${house.province}</span>
+            </td>
+    
+            <td>${house.totalPrice}</td>
+            <td>${house.perPerson}</td>
+            <td>⭐ ${house.rating}</td>
+    
+            <td>
+              <div class="small">
+                Individuales: ${house.beds.singles}<br>
+                Matrimonio: ${house.beds.double}<br>
+                Literas: ${house.beds.bunk}<br>
+                Sofá cama: ${house.beds.sofa}
               </div>
-
-              <div class="badge ${house.ac ? '' : 'no'}">
-                ${house.ac ? '❄️ A/C' : '🌡️ Sin A/C'}
-              </div>
-            </div>
-
-            <div class="beds">
-              <h3>Distribución de camas</h3>
-
-              <ul>
-                <li>🛏️ Individuales: ${house.beds.singles}</li>
-                <li>🛌 Matrimonio: ${house.beds.double}</li>
-                <li>🪜 Literas: ${house.beds.bunk}</li>
-                <li>🛋️ Sofá cama: ${house.beds.sofa}</li>
-              </ul>
-            </div>
-
-            <div class="actions">
-              <a class="button primary" href="${house.source}" target="_blank">
-                Ver alojamiento
-              </a>
-
-              <a class="button secondary" href="#comparison">
-                Comparar
-              </a>
-            </div>
-          </div>
-        </article>
-      `;
-
-      tableBody.innerHTML += `
-        <tr>
-          <td>
-            <strong>${house.name}</strong>
-          </td>
-
-          <td>
-            ${house.municipality}<br>
-            <span class="small">${house.province}</span>
-          </td>
-
-          <td>${house.totalPrice}</td>
-          <td>${house.perPerson}</td>
-          <td>⭐ ${house.rating}</td>
-
-          <td>
-            <div class="small">
-              Individuales: ${house.beds.singles}<br>
-              Matrimonio: ${house.beds.double}<br>
-              Literas: ${house.beds.bunk}<br>
-              Sofá cama: ${house.beds.sofa}
-            </div>
-          </td>
-
-          <td>${yesNo(house.pool)}</td>
-          <td>${yesNo(house.ac)}</td>
-        </tr>
-      `;
+            </td>
+    
+            <td>${yesNo(house.pool)}</td>
+            <td>${yesNo(house.ac)}</td>
+          </tr>
+        `;
+      });
+    }
+    
+    function extractNumber(value) {
+      if (!value) return 0;
+    
+      const match = value.toString().replace(',', '.').match(/[\d.]+/);
+      return match ? parseFloat(match[0]) : 0;
+    }
+    
+    let sortDirection = {};
+    
+    document.querySelectorAll('th[data-sort]').forEach(header => {
+      header.style.cursor = 'pointer';
+    
+      header.addEventListener('click', () => {
+        const key = header.dataset.sort;
+    
+        sortDirection[key] = !sortDirection[key];
+    
+        houses.sort((a, b) => {
+          let valA;
+          let valB;
+    
+          switch (key) {
+            case 'location':
+              valA = `${a.municipality} ${a.province}`;
+              valB = `${b.municipality} ${b.province}`;
+              break;
+    
+            case 'totalPrice':
+            case 'perPerson':
+            case 'rating':
+              valA = extractNumber(a[key]);
+              valB = extractNumber(b[key]);
+              break;
+    
+            case 'beds':
+              valA =
+                extractNumber(a.beds.singles) +
+                extractNumber(a.beds.double);
+    
+              valB =
+                extractNumber(b.beds.singles) +
+                extractNumber(b.beds.double);
+              break;
+    
+            case 'pool':
+            case 'ac':
+              valA = a[key] ? 1 : 0;
+              valB = b[key] ? 1 : 0;
+              break;
+    
+            default:
+              valA = a[key].toLowerCase();
+              valB = b[key].toLowerCase();
+          }
+    
+          if (valA < valB) return sortDirection[key] ? -1 : 1;
+          if (valA > valB) return sortDirection[key] ? 1 : -1;
+          return 0;
+        });
+    
+        renderTable();
+      });
     });
+    
+    renderCards();
+    renderTable();
   </script>
 </body>
 </html>
