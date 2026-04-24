@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparativa Casas Rurales · Verano 2026</title>
+  <style>
+    :root {
+      --bg: #f5f7f6;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --accent: #111827;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --shadow: 0 10px 30px rgba(0,0,0,0.06);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 32px 20px 80px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      margin-bottom: 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 720px;
+      font-size: 1.05rem;
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .image {
+      height: 240px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .rating {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .content {
+      padding: 24px;
+    }
+
+    .content h2 {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .location {
+      color: var(--muted);
+      margin-bottom: 18px;
+      font-size: 0.95rem;
+    }
+
+    .price {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9fafb;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+    }
+
+    .price div span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .price strong {
+      font-size: 1.2rem;
+    }
+
+    .badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #eef2ff;
+    }
+
+    .badge.no {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .beds {
+      background: #f9fafb;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .beds h3 {
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .beds ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .beds li {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .button {
+      flex: 1;
+      text-decoration: none;
+      text-align: center;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: opacity 0.2s ease;
+    }
+
+    .button.primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .button.secondary {
+      background: #f3f4f6;
+      color: var(--text);
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .table-section {
+      margin-top: 20px;
+    }
+
+    .table-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1100px;
+    }
+
+    th {
+      background: #111827;
+      color: white;
+      text-align: left;
+      padding: 18px;
+      font-size: 0.9rem;
+    }
+
+    td {
+      padding: 18px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .yes {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .nope {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 24px 16px 60px;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .image {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <section class="hero">
+      <h1>Comparativa Casas Rurales</h1>
+      <p>
+        Selección de alojamientos para el finde del evento · Julio 2026 · Grupo de 15 personas.
+        Comparativa rápida de precios, distribución de camas, extras y fotos.
+      </p>
+
+      <div class="stats">
+        <div class="stat">
+          <strong>10</strong>
+          <span>Alojamientos</span>
+        </div>
+
+        <div class="stat">
+          <strong>15</strong>
+          <span>Personas</span>
+        </div>
+
+        <div class="stat">
+          <strong>2 noches</strong>
+          <span>Estancia</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards" id="cards"></section>
+
+    <section class="table-section">
+      <h2>Tabla comparativa</h2>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Alojamiento</th>
+              <th>Ubicación</th>
+              <th>Precio total</th>
+              <th>Precio / persona</th>
+              <th>Valoración</th>
+              <th>Camas</th>
+              <th>Piscina</th>
+              <th>A/C</th>
+            </tr>
+          </thead>
+
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const houses = [
+      {
+        name: 'El Mirador del Castillo',
+        municipality: 'Sigüenza',
+        province: 'Guadalajara',
+        totalPrice: '1050€',
+        perPerson: '70€',
+        rating: '5★ · 35 opiniones',
+        beds: {
+          singles: '8',
+          double: '2',
+          bunk: '0',
+          sofa: '0 + 3 supletorias'
+        },
+        pool: true,
+        ac: false,
+        image: './images/el-mirador-del-castillo.jpg',
+        source: 'https://www.escapadarural.com/casa-rural/guadalajara/el-mirador-del-castillo'
+      },
+
+      {
+        name: 'Casas de Valois',
+        municipality: 'Pendiente',
+        province: 'Pendiente',
+        totalPrice: '1656€',
+        perPerson: '110.40€',
+        rating: '9.7/10 · 36 opiniones',
+        beds: {
+          singles: '8',
+          double: '7',
+          bunk: '0',
+          sofa: '2'
+        },
+        pool: true,
+        ac: true,
+        image: './images/casas-de-valois.jpg',
+        source: 'https://www.booking.com/hotel/es/casas-de-valois.es.html'
+      },
+
+      {
+        name: 'El Aledo',
+        municipality: 'Segovia',
+        province: 'Segovia',
+        totalPrice: '1400€',
+        perPerson: '93.33€',
+        rating: '3★ · 1 opinión',
+        beds: {
+          singles: '10',
+          double: '5',
+          bunk: '0',
+          sofa: '2'
+        },
+        pool: true,
+        ac: false,
+        image: './images/el-aledo.jpg',
+        source: 'https://www.escapadarural.com/casa-rural/segovia/el-aledo'
+      },
+
+      {
+        name: 'Casa Clarita',
+        municipality: 'Perales de Tajuña',
+        province: 'Madrid',
+        totalPrice: '1662€',
+        perPerson: '110.80€',
+        rating: '9.6/10 · 11 opiniones',
+        beds: {
+          singles: '3',
+          double: '7',
+          bunk: '0',
+          sofa: '2'
+        },
+        pool: true,
+        ac: false,
+        image: './images/casa-clarita.jpg',
+        source: 'https://www.booking.com/hotel/es/casa-clarita-madrid.html'
+      },
+
+      {
+        name: 'Casa Rural Dos Hermanas',
+        municipality: 'Pendiente',
+        province: 'Pendiente',
+        totalPrice: '1261€',
+        perPerson: '84.07€',
+        rating: '5★ · 3 opiniones',
+        beds: {
+          singles: '16',
+          double: '3',
+          bunk: '0',
+          sofa: '0'
+        },
+        pool: true,
+        ac: false,
+        image: './images/casa-rural-dos-hermanas.jpg',
+        source: 'https://www.booking.com/hotel/es/casa-rural-dos-hermanas.es.html'
+      },
+
+      {
+        name: 'Finca Los Rosales de la Vega',
+        municipality: 'Pendiente',
+        province: 'Pendiente',
+        totalPrice: '1706€',
+        perPerson: '113.73€',
+        rating: '9.4/10 · 37 opiniones',
+        beds: {
+          singles: '0',
+          double: '4',
+          bunk: '2',
+          sofa: '4'
+        },
+        pool: true,
+        ac: true,
+        image: './images/finca-los-rosales.jpg',
+        source: 'https://www.booking.com/hotel/es/finca-los-rosales-de-la-vega.es.html'
+      },
+
+      {
+        name: 'Tome Casa de Huéspedes',
+        municipality: 'Pendiente',
+        province: 'Pendiente',
+        totalPrice: '1770€',
+        perPerson: '118€',
+        rating: '9.4/10 · 160 opiniones',
+        beds: {
+          singles: '5',
+          double: '5',
+          bunk: '0',
+          sofa: '2'
+        },
+        pool: true,
+        ac: true,
+        image: './images/tome-casa-huespedes.jpg',
+        source: 'https://www.booking.com/hotel/es/tome-casa-de-huespedes.es.html'
+      },
+
+      {
+        name: 'La Musical Casas Rurales',
+        municipality: 'Guadalajara',
+        province: 'Guadalajara',
+        totalPrice: '1445€',
+        perPerson: '96.33€',
+        rating: '5★ · 5 opiniones',
+        beds: {
+          singles: '2',
+          double: '5',
+          bunk: '0',
+          sofa: '1 + 4 supletorias'
+        },
+        pool: true,
+        ac: true,
+        image: './images/la-musical.jpg',
+        source: 'https://www.escapadarural.com/casa-rural/guadalajara/la-musical-casas-rurales'
+      },
+
+      {
+        name: 'Casa Guadalix',
+        municipality: 'Guadalix de la Sierra',
+        province: 'Madrid',
+        totalPrice: '1650€',
+        perPerson: '110€',
+        rating: 'Sin opiniones',
+        beds: {
+          singles: '8',
+          double: '4',
+          bunk: '0',
+          sofa: '0'
+        },
+        pool: true,
+        ac: false,
+        image: './images/casa-guadalix.jpg',
+        source: 'https://www.escapadarural.com/casa-rural/madrid/casa-guadalix'
+      },
+
+      {
+        name: 'El Corazón Verde',
+        municipality: 'Pendiente',
+        province: 'Zamora',
+        totalPrice: '1650€',
+        perPerson: '110€',
+        rating: '5★ · 19 opiniones',
+        beds: {
+          singles: '11',
+          double: '5',
+          bunk: '0',
+          sofa: '0 + 3 supletorias'
+        },
+        pool: true,
+        ac: false,
+        image: './images/el-corazon-verde.jpg',
+        source: 'https://www.escapadarural.com/casa-rural/zamora/el-corazon-verde'
+      }
+    ];
+
+    const cards = document.getElementById('cards');
+    const tableBody = document.getElementById('table-body');
+
+    function yesNo(value) {
+      if (value === true) return '<span class="yes">Sí</span>';
+      if (value === false) return '<span class="nope">No</span>';
+      return '<span class="small">Pendiente</span>';
+    }
+
+    houses.forEach(house => {
+      cards.innerHTML += `
+        <article class="card">
+          <div class="image" style="background-image:url('${house.image}')">
+            <div class="rating">⭐ ${house.rating}</div>
+          </div>
+
+          <div class="content">
+            <h2>${house.name}</h2>
+            <div class="location">${house.municipality}, ${house.province}</div>
+
+            <div class="price">
+              <div>
+                <span>Precio total</span>
+                <strong>${house.totalPrice}</strong>
+              </div>
+
+              <div>
+                <span>Por persona</span>
+                <strong>${house.perPerson}</strong>
+              </div>
+            </div>
+
+            <div class="badges">
+              <div class="badge ${house.pool ? '' : 'no'}">
+                ${house.pool ? '🏊 Piscina' : '❌ Sin piscina'}
+              </div>
+
+              <div class="badge ${house.ac ? '' : 'no'}">
+                ${house.ac ? '❄️ A/C' : '🌡️ Sin A/C'}
+              </div>
+            </div>
+
+            <div class="beds">
+              <h3>Distribución de camas</h3>
+
+              <ul>
+                <li>🛏️ Individuales: ${house.beds.singles}</li>
+                <li>🛌 Matrimonio: ${house.beds.double}</li>
+                <li>🪜 Literas: ${house.beds.bunk}</li>
+                <li>🛋️ Sofá cama: ${house.beds.sofa}</li>
+              </ul>
+            </div>
+
+            <div class="actions">
+              <a class="button primary" href="${house.source}" target="_blank">
+                Ver alojamiento
+              </a>
+
+              <a class="button secondary" href="#comparison">
+                Comparar
+              </a>
+            </div>
+          </div>
+        </article>
+      `;
+
+      tableBody.innerHTML += `
+        <tr>
+          <td>
+            <strong>${house.name}</strong>
+          </td>
+
+          <td>
+            ${house.municipality}<br>
+            <span class="small">${house.province}</span>
+          </td>
+
+          <td>${house.totalPrice}</td>
+          <td>${house.perPerson}</td>
+          <td>⭐ ${house.rating}</td>
+
+          <td>
+            <div class="small">
+              Individuales: ${house.beds.singles}<br>
+              Matrimonio: ${house.beds.double}<br>
+              Literas: ${house.beds.bunk}<br>
+              Sofá cama: ${house.beds.sofa}
+            </div>
+          </td>
+
+          <td>${yesNo(house.pool)}</td>
+          <td>${yesNo(house.ac)}</td>
+        </tr>
+      `;
+    });
+  </script>
+</body>
+</html>
