@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spagna e Italia a confronto — Governo e giustizia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400;1,500&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #E7E3D5;
+    --paper-panel: #DED9C8;
+    --paper-panel-2: #E1DCCC;
+    --ink: #22242C;
+    --ink-soft: #5B5D62;
+    --line: #B7AF97;
+    --accent-spain: #A9822C;
+    --accent-italy: #2A5D3B;
+    --tab-investigated: #55627A;
+    --tab-charged: #6B4A2B;
+    --tab-convicted: #7A1620;
+    --watch: #8C8674;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(34,36,44,0.035), transparent 55%),
+      radial-gradient(circle at 85% 75%, rgba(34,36,44,0.035), transparent 55%),
+      radial-gradient(circle at 50% 50%, rgba(34,36,44,0.015), transparent 70%);
+    color: var(--ink);
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 48px 24px 40px;
+  }
+
+  a{ color: inherit; }
+  a:focus-visible, button:focus-visible{ outline: 2px solid var(--ink); outline-offset: 3px; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    text-align:center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(2.4rem, 6vw, 3.7rem);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    margin: 0 0 18px;
+  }
+  h1 span{ font-style: italic; font-weight: 600; color: var(--ink-soft); }
+  .subtitle{
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin: 0 auto 20px;
+  }
+  .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    max-width: 640px;
+    margin: 0 auto 22px;
+  }
+  .jumpnav{ display:flex; gap:10px; justify-content:center; }
+  .jumpnav a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration:none;
+    padding: 7px 16px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    transition: background-color .15s ease, color .15s ease;
+  }
+  .jumpnav a:hover{ background: var(--ink); color: var(--paper); }
+
+  /* ---------- Scoreboard ---------- */
+  .scoreboard{
+    display:grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    gap: 28px;
+    align-items:center;
+    padding: 38px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .score{ text-align:center; }
+  .score-country{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .score--spain .score-country{ color: var(--accent-spain); }
+  .score--italy .score-country{ color: var(--accent-italy); }
+  .score-number{
+    display:block;
+    font-family:'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(3.4rem, 9vw, 5.2rem);
+    line-height: 0.9;
+  }
+  .score-breakdown{
+    display:block;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .score-caveat p{
+    font-size: 0.86rem;
+    color: var(--ink-soft);
+    margin: 0;
+    padding: 0 6px;
+  }
+
+  /* ---------- Legend ---------- */
+  .legend{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 20px 28px;
+    justify-content:center;
+    padding: 22px 0 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+  }
+  .legend-item{ display:flex; align-items:center; gap:8px; }
+  .dot{ width:10px; height:10px; border-radius:2px; flex:none; display:inline-block; }
+  .dot--investigated{ background: var(--tab-investigated); }
+  .dot--charged{ background: var(--tab-charged); }
+  .dot--convicted{ background: var(--tab-convicted); }
+
+  /* ---------- Dossier columns ---------- */
+  .dossier{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 30px;
+  }
+  .column{ padding: 0 30px; scroll-margin-top: 24px; }
+  .column--spain{ border-right: 1px solid var(--line); }
+
+  .column-head{ margin-bottom: 6px; }
+  .column-head h2{
+    font-family:'Fraunces', serif;
+    font-weight: 800;
+    font-size: 2rem;
+    margin: 0 0 2px;
+  }
+  .column-head p{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+  .column--spain .column-head p{ color: var(--accent-spain); }
+  .column--italy .column-head p{ color: var(--accent-italy); }
+
+  .column-note{
+    font-size: 0.92rem;
+    font-style: italic;
+    color: var(--ink-soft);
+    border-left: 3px solid var(--line);
+    padding: 4px 0 4px 14px;
+    margin: 18px 0 6px;
+  }
+
+  .case-group{ margin-bottom: 6px; }
+  .case-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 7px;
+    margin: 30px 0 16px;
+  }
+
+  .entry{ margin-bottom: 18px; }
+  .tab{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--paper);
+    padding: 5px 12px;
+    border-radius: 5px 5px 0 0;
+    margin-left: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .tab--investigated{ background: var(--tab-investigated); }
+  .tab--charged{ background: var(--tab-charged); }
+  .tab--convicted{ background: var(--tab-convicted); }
+
+  .card{
+    background: var(--paper-panel);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: 16px 18px 18px;
+    margin-top: -1px;
+    position: relative;
+    z-index: 0;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{ transform: translateY(-2px); box-shadow: 0 8px 18px rgba(34,36,44,0.12); }
+  .card-name{
+    font-family:'Fraunces', serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0 0 3px;
+  }
+  .card-role{
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    margin: 0 0 10px;
+  }
+  .card-desc{
+    font-size: 0.94rem;
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .watch-card{
+    margin: 26px 0 10px;
+    padding: 14px 16px;
+    border: 1px dashed var(--watch);
+    border-radius: 2px;
+    background: transparent;
+  }
+  .watch-label{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--watch);
+    margin-bottom: 8px;
+  }
+  .watch-card .card-name{ font-size: 1.05rem; }
+  .watch-card .card-desc{ color: var(--ink-soft); font-size: 0.9rem; }
+
+  /* ---------- Footer ---------- */
+  .colophon{
+    margin-top: 46px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-size: 0.84rem;
+    color: var(--ink-soft);
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .colophon p{ margin: 0 0 10px; }
+  .colophon p:last-child{ margin-bottom: 0; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 880px){
+    .scoreboard{ grid-template-columns: 1fr; text-align:center; gap: 18px; }
+    .score-caveat{ order: 3; }
+    .dossier{ grid-template-columns: 1fr; }
+    .column{ padding: 0 4px; }
+    .column--spain{ border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 28px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Dossier comparativo · Giustizia e governo</p>
+    <h1>Spagna e Italia<br><span>a confronto</span></h1>
+    <p class="subtitle">Le persone legate ai governi Sánchez e Meloni oggi indagate, imputate o condannate dalla giustizia</p>
+    <p class="meta">Aggiornato al 2 luglio 2026 · fonti: comunicati giudiziari e stampa · vale la presunzione d'innocenza per chiunque non sia stato condannato con sentenza definitiva</p>
+    <nav class="jumpnav">
+      <a href="#spagna">Vai a Spagna</a>
+      <a href="#italia">Vai a Italia</a>
+    </nav>
+  </header>
+
+  <section class="scoreboard">
+    <div class="score score--spain">
+      <span class="score-country">Spagna</span>
+      <span class="score-number">41</span>
+      <span class="score-breakdown">4 condannate · 6 imputate · 31 indagate</span>
+    </div>
+    <div class="score-caveat">
+      <p>I due paesi hanno architetture processuali diverse — ad esempio l'ampio ricorso spagnolo allo status di "investigado/imputado" già nelle fasi iniziali dell'istruttoria. Il confronto numerico va letto con cautela: non è un indice diretto del livello di corruzione nei due paesi, ma della quantità di persone toccate, in questo momento, da un procedimento formale.</p>
+    </div>
+    <div class="score score--italy">
+      <span class="score-country">Italia</span>
+      <span class="score-number">5</span>
+      <span class="score-breakdown">1 condannato · 2 imputati · 2 indagati</span>
+    </div>
+  </section>
+
+  <section class="legend">
+    <span class="legend-item"><i class="dot dot--investigated"></i>Indagato — indagine preliminare, nessun processo ancora aperto</span>
+    <span class="legend-item"><i class="dot dot--charged"></i>Imputato / rinviato a giudizio — processo aperto o in corso</span>
+    <span class="legend-item"><i class="dot dot--convicted"></i>Condannato — sentenza di condanna, anche se non definitiva</span>
+  </section>
+
+  <main class="dossier">
+
+    <!-- ================= SPAGNA ================= -->
+    <section class="column column--spain" id="spagna">
+      <div class="column-head">
+        <h2>Spagna</h2>
+        <p>Governo di Pedro Sánchez (PSOE)</p>
+      </div>
+      <p class="column-note">Le inchieste spagnole si intrecciano in una rete di casi collegati — Koldo, Plus Ultra, Leire/SEPI — che coinvolge insieme esponenti del governo, vertici del PSOE e la galassia di enti pubblici e aziende a loro vicini.</p>
+
+      <article class="case-group">
+        <p class="case-label">Caso Begoña Gómez · Tribunale di Madrid</p>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputata</span>
+          <div class="card">
+            <h3 class="card-name">Begoña Gómez</h3>
+            <p class="card-role">Moglie del presidente del Governo Pedro Sánchez</p>
+            <p class="card-desc">Rinviata a giudizio a giugno 2026, con passaporto ritirato per rischio di fuga. Le accuse: traffico di influenze, corruzione tra privati, appropriazione indebita e malversazione, legate a una cattedra universitaria che dirigeva alla Complutense di Madrid.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputata</span>
+          <div class="card">
+            <h3 class="card-name">Cristina Álvarez</h3>
+            <p class="card-role">Consulente personale di Begoña Gómez a Moncloa</p>
+            <p class="card-desc">Rinviata a giudizio nello stesso procedimento, con le medesime accuse.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputato</span>
+          <div class="card">
+            <h3 class="card-name">Juan Carlos Barrabés</h3>
+            <p class="card-role">Imprenditore legato ai progetti universitari di Gómez</p>
+            <p class="card-desc">Co-imputato nello stesso procedimento.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-group">
+        <p class="case-label">Caso Badajoz · Audiencia Provinciale di Badajoz</p>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputato</span>
+          <div class="card">
+            <h3 class="card-name">David Sánchez</h3>
+            <p class="card-role">Fratello del presidente del Governo</p>
+            <p class="card-desc">Il processo si è concluso a giugno 2026; si attende ora la sentenza. È accusato di prevaricazione amministrativa e traffico di influenze per la sua assunzione come coordinatore dei conservatori musicali della provincia di Badajoz.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputato</span>
+          <div class="card">
+            <h3 class="card-name">Miguel Ángel Gallardo</h3>
+            <p class="card-role">Ex segretario generale del PSOE dell'Estremadura, ex presidente della Diputación di Badajoz</p>
+            <p class="card-desc">Firmò, come presidente della Diputación, il contratto oggetto dell'accusa; imputato nello stesso processo.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-group">
+        <p class="case-label">Caso Koldo — mascherine e appalti · Tribunale Supremo / Audiencia Nacional</p>
+
+        <div class="entry">
+          <span class="tab tab--convicted">Condannato</span>
+          <div class="card">
+            <h3 class="card-name">José Luis Ábalos</h3>
+            <p class="card-role">Ex ministro dei Trasporti (PSOE)</p>
+            <p class="card-desc">Condannato dal Tribunale Supremo a 24 anni e 3 mesi per organizzazione criminale, corruzione, malversazione e traffico di influenze nel "caso mascherine". Resta inoltre imputato in un procedimento distinto, ancora aperto presso l'Audiencia Nacional, sulle presunte tangenti negli appalti di opere pubbliche: la sua pena complessiva potrebbe quindi aumentare.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--convicted">Condannato</span>
+          <div class="card">
+            <h3 class="card-name">Koldo García</h3>
+            <p class="card-role">Ex consulente e assistente personale di Ábalos</p>
+            <p class="card-desc">Condannato a 19 anni, 8 mesi e 1 giorno nella stessa sentenza. Come Ábalos, resta imputato nel filone sugli appalti pubblici ancora in corso.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--convicted">Condannato</span>
+          <div class="card">
+            <h3 class="card-name">Víctor de Aldama</h3>
+            <p class="card-role">Imprenditore, intermediario e testimone chiave collaborante</p>
+            <p class="card-desc">Condannato a 4 anni e 6 mesi, pena sospesa in virtù della sua collaborazione con la giustizia nel far emergere la rete.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagato</span>
+          <div class="card">
+            <h3 class="card-name">Santos Cerdán</h3>
+            <p class="card-role">Ex Segretario dell'Organizzazione del PSOE (n. 3 del partito)</p>
+            <p class="card-desc">In custodia cautelare dal giugno 2025. È accusato di aver gestito una rete di tangenti per l'assegnazione di appalti di opere pubbliche a imprese amiche.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputata</span>
+          <div class="card">
+            <h3 class="card-name">Isabel Pardo de Vera</h3>
+            <p class="card-role">Ex presidente di ADIF, il gestore statale delle infrastrutture ferroviarie</p>
+            <p class="card-desc">Passaporto ritirato. Accusata di malversazione e traffico di influenze nell'assegnazione di appalti per mascherine e per opere ferroviarie.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-group">
+        <p class="case-label">Caso Plus Ultra · Audiencia Nacional</p>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagato</span>
+          <div class="card">
+            <h3 class="card-name">José Luis Rodríguez Zapatero</h3>
+            <p class="card-role">Ex presidente del Governo</p>
+            <p class="card-desc">Indagato dal maggio 2026 per presunto traffico di influenze e riciclaggio di denaro legati al Venezuela e al salvataggio pubblico della compagnia aerea Plus Ultra durante la pandemia.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagate</span>
+          <div class="card">
+            <h3 class="card-name">Alba e Laura Rodríguez</h3>
+            <p class="card-role">Figlie di Zapatero, amministratrici della società "What The Fav"</p>
+            <p class="card-desc">Indagate dal giugno 2026: secondo il giudice la loro società avrebbe avuto un ruolo strumentale nel veicolare o occultare operazioni rilevanti per il caso.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagata</span>
+          <div class="card">
+            <h3 class="card-name">Gertrudis Alcázar</h3>
+            <p class="card-role">Segretaria personale di Zapatero</p>
+            <p class="card-desc">Indagata dal giugno 2026 per un presunto ruolo operativo chiave nel coordinare la documentazione della rete, dall'ufficio dell'ex presidente in calle Ferraz.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-group">
+        <p class="case-label">Caso Leire / SEPI · Audiencia Nacional — macro-inchiesta in espansione</p>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagata</span>
+          <div class="card">
+            <h3 class="card-name">Leire Díez</h3>
+            <p class="card-role">Ex militante del PSOE, vicina all'entourage di Santos Cerdán</p>
+            <p class="card-desc">Al centro di un'inchiesta ormai molto più ampia, su una presunta rete di traffico di influenze che avrebbe pilotato appalti pubblici e tentato di screditare gli inquirenti anticorruzione.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagata</span>
+          <div class="card">
+            <h3 class="card-name">Belén Gualda</h3>
+            <p class="card-role">Presidente della SEPI, holding pubblico industriale, dal 2022</p>
+            <p class="card-desc">Indagata dal 29 giugno 2026 per un presunto ruolo nello sblocco di un salvataggio statale da 112,8 milioni di euro a favore dell'azienda Tubos Reunidos, in cambio di commissioni illecite.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagati</span>
+          <div class="card">
+            <h3 class="card-name">Vicente Fernández e Bartolomé Lora</h3>
+            <p class="card-role">I due precedenti presidenti della SEPI</p>
+            <p class="card-desc">Indagati nello stesso schema di salvataggi pubblici pilotati.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagati</span>
+          <div class="card">
+            <h3 class="card-name">Altri 22 dirigenti e imprenditori</h3>
+            <p class="card-role">Dirigenti di SEPI, ENUSA, Mercasa e aziende private collegate</p>
+            <p class="card-desc">Nuovamente indagati il 30 giugno 2026 nella stessa macro-inchiesta. Gli inquirenti stimano che il numero totale di indagati e testimoni coinvolti possa arrivare a un centinaio.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-group">
+        <p class="case-label">Caso del Procuratore Generale · Tribunale Supremo</p>
+
+        <div class="entry">
+          <span class="tab tab--convicted">Condannato</span>
+          <div class="card">
+            <h3 class="card-name">Álvaro García Ortiz</h3>
+            <p class="card-role">Procuratore Generale dello Stato, nominato dal governo Sánchez</p>
+            <p class="card-desc">Condannato dal Tribunale Supremo nel dicembre 2025 — il primo Procuratore Generale in carica a essere condannato nella storia della democrazia spagnola — per la rivelazione di dati riservati relativi al compagno della leader dell'opposizione madrilena.</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="watch-card">
+        <span class="watch-label">Da monitorare — non ancora indagata</span>
+        <h3 class="card-name">María Jesús Montero</h3>
+        <p class="card-desc">Ex ministra dell'Economia, oggi leader del PSOE in Andalusia. Secondo fonti giudiziarie sarebbe "sull'orlo" di essere indagata nell'ambito del caso SEPI, in quanto responsabile politica del ministero da cui l'ente dipende. Al momento della stesura non risulta ancora formalmente indagata.</p>
+      </div>
+    </section>
+
+    <!-- ================= ITALIA ================= -->
+    <section class="column column--italy" id="italia">
+      <div class="column-head">
+        <h2>Italia</h2>
+        <p>Governo di Giorgia Meloni (FdI–Lega–FI)</p>
+      </div>
+      <p class="column-note">In Italia, allo stato attuale, i procedimenti restano più circoscritti: riguardano singoli ministri o sottosegretari e le loro vicende imprenditoriali o giudiziarie personali, più che una rete organizzata unica.</p>
+
+      <article class="case-group">
+        <p class="case-label">Caso Visibilia — Ki Group — Bioera · Procura di Milano</p>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputata</span>
+          <div class="card">
+            <h3 class="card-name">Daniela Santanchè</h3>
+            <p class="card-role">Senatrice di Fratelli d'Italia, ministra del Turismo fino alle dimissioni di marzo 2026</p>
+            <p class="card-desc">A processo per falso in bilancio nel caso Visibilia. È inoltre in attesa di udienza preliminare, sospesa presso la Corte Costituzionale, per truffa aggravata ai danni dell'INPS, e indagata per bancarotta fraudolenta in due procedimenti distinti (Ki Group e Bioera), che la Procura punta a riunire in un unico fascicolo entro l'autunno 2026.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--charged">Imputato</span>
+          <div class="card">
+            <h3 class="card-name">Dimitri Kunz</h3>
+            <p class="card-role">Compagno di Daniela Santanchè</p>
+            <p class="card-desc">Co-imputato nel processo Visibilia e nel procedimento per la presunta truffa all'INPS.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagato</span>
+          <div class="card">
+            <h3 class="card-name">Canio Mazzaro</h3>
+            <p class="card-role">Ex compagno di Daniela Santanchè</p>
+            <p class="card-desc">Indagato nei procedimenti per bancarotta fraudolenta legati a Ki Group e Bioera.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-group">
+        <p class="case-label">Caso Cospito · Corte d'Appello di Roma</p>
+
+        <div class="entry">
+          <span class="tab tab--convicted">Condannato</span>
+          <div class="card">
+            <h3 class="card-name">Andrea Delmastro Delle Vedove</h3>
+            <p class="card-role">Deputato di Fratelli d'Italia, ex sottosegretario alla Giustizia (dimesso a marzo 2026)</p>
+            <p class="card-desc">Condannato a 8 mesi (pena sospesa) e un anno di interdizione dai pubblici uffici, sentenza confermata in appello a maggio 2026, per aver rivelato informazioni riservate sul detenuto anarchico Alfredo Cospito. Ha annunciato ricorso in Cassazione.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="case-group">
+        <p class="case-label">Caso Almasri · Tribunale dei Ministri di Roma</p>
+
+        <div class="entry">
+          <span class="tab tab--investigated">Indagata</span>
+          <div class="card">
+            <h3 class="card-name">Giusi Bartolozzi</h3>
+            <p class="card-role">Ex capo di gabinetto del ministro della Giustizia Carlo Nordio (dimessa a marzo 2026)</p>
+            <p class="card-desc">Il suo fascicolo è rimasto aperto anche dopo che il Parlamento ha negato l'autorizzazione a procedere contro i ministri coinvolti nello stesso caso. È accusata di false dichiarazioni ai magistrati sulla gestione della scarcerazione e del rimpatrio del generale libico ricercato dalla Corte penale internazionale.</p>
+          </div>
+        </div>
+      </article>
+
+      <div class="watch-card">
+        <span class="watch-label">Fuori perimetro — oltre la finestra dei due anni</span>
+        <h3 class="card-name">Vittorio Sgarbi</h3>
+        <p class="card-desc">Critico d'arte, ex sottosegretario alla Cultura, dimesso a febbraio 2024. Assolto a febbraio 2026 dall'accusa di riciclaggio di beni culturali, ma in attesa di un possibile rinvio a giudizio per sottrazione fraudolenta al pagamento delle imposte. Non è più membro del governo da oltre due anni: per questo è escluso dal conteggio principale.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="colophon">
+    <p>Questa pagina è una sintesi giornalistica, non un atto giudiziario. Per tutte le persone indicate come indagate o imputate vale la presunzione di innocenza fino a sentenza definitiva; anche le condanne qui riportate possono essere oggetto di appello o ricorso in Cassazione.</p>
+    <p>I sistemi processuali di Spagna e Italia usano categorie e soglie procedurali diverse (ad esempio investigado/imputado in Spagna, indagato/imputato in Italia): le tre fasce di questa pagina — indagato, imputato, condannato — sono una semplificazione comparativa, non una traduzione letterale dei termini legali dei due paesi.</p>
+    <p>Le informazioni riflettono fonti giornalistiche e comunicati giudiziari disponibili al 2 luglio 2026. Trattandosi di inchieste in corso, la situazione può evolvere rapidamente: verificare sempre le fonti più recenti prima di trarre conclusioni.</p>
+  </footer>
+
+</div>
+</body>
+</html>
